@@ -6,3 +6,4 @@ crewai
 chromadb
 pypdf
 anthropic
+langchain-groq
