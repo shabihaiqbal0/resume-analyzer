@@ -1,10 +1,4 @@
 streamlit
-langchain
-langchain-community
-langchain-openai
-crewai
-chromadb
-pypdf
 anthropic
-langchain-groq
-langchain-text-splitter
+PyPDF2
+docx2txt
