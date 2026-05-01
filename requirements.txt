@@ -7,3 +7,4 @@ chromadb
 pypdf
 anthropic
 langchain-groq
+langchain-text-splitter
