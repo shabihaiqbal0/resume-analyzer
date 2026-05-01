@@ -1,7 +1,7 @@
 import streamlit as st
 import anthropic
 import PyPDF2
-import docx
+import docx2txt
 import io
 import json
 import re
