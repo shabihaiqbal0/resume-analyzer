@@ -1,10 +1,19 @@
 import streamlit as st
-import anthropic
 import PyPDF2
 import docx2txt
 import io
 import json
 import re
+import os
+from langchain_groq import ChatGroq
+from langchain.schema import HumanMessage
+
+# ─── Groq Setup ─────────────────────────────────────────────────────────────
+groq_api_key = os.getenv("GROQ_API_KEY")
+llm = ChatGroq(
+    groq_api_key=groq_api_key,
+    model_name="llama3-8b-8192"
+)
 
 # ─── Page Config ────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -217,13 +226,10 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
 
 
 def extract_text_from_docx(file_bytes: bytes) -> str:
-    doc = docx.Document(io.BytesIO(file_bytes))
-    return "\n".join(p.text for p in doc.paragraphs)
+    return docx2txt.process(io.BytesIO(file_bytes))
 
 
 def analyze_resume(resume_text: str, job_description: str) -> dict:
-    client = anthropic.Anthropic()
-
     jd_section = f"\n\nJob Description:\n{job_description}" if job_description.strip() else ""
 
     prompt = f"""You are an expert resume analyst and career coach. Analyze the following resume{' against the job description' if jd_section else ''} and return a detailed JSON report.
@@ -251,14 +257,9 @@ Return ONLY a valid JSON object (no markdown, no backticks) with this exact stru
   "action_items": ["<action1>", "<action2>", "<action3>"]
 }}"""
 
-    message = client.messages.create(
-        model="claude-sonnet-4-20250514",
-        max_tokens=2000,
-        messages=[{"role": "user", "content": prompt}],
-    )
-
-    raw = message.content[0].text.strip()
-    # Strip markdown fences if present
+    # ✅ Using Groq (Free) instead of Anthropic (Paid)
+    response = llm.invoke([HumanMessage(content=prompt)])
+    raw = response.content.strip()
     raw = re.sub(r"^```[a-z]*\n?", "", raw)
     raw = re.sub(r"\n?```$", "", raw)
     return json.loads(raw)
@@ -427,6 +428,6 @@ elif not uploaded_file:
     <div style="text-align:center;padding:3rem;color:var(--muted)">
       <div style="font-size:4rem;margin-bottom:1rem">📄</div>
       <p style="font-size:1.1rem">Upload your resume above to get started</p>
-      <p style="font-size:0.85rem">Supports PDF and DOCX · Powered by Claude AI</p>
+      <p style="font-size:0.85rem">Supports PDF and DOCX · Powered by Groq AI (Free)</p>
     </div>
     """, unsafe_allow_html=True)

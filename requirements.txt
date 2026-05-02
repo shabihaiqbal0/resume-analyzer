@@ -1,4 +1,5 @@
 streamlit
-anthropic
 PyPDF2
 docx2txt
+langchain-groq
+langchain
