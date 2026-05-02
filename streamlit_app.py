@@ -6,7 +6,7 @@ import json
 import re
 import os
 from langchain_groq import ChatGroq
-from langchain.schema import HumanMessage
+from langchain_core.messages import HumanMessage
 
 # ─── Groq Setup ─────────────────────────────────────────────────────────────
 groq_api_key = os.getenv("GROQ_API_KEY")
