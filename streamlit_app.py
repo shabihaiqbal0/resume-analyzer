@@ -964,4 +964,5 @@ with t9:
             except: pass
             st.rerun()
     else:
-        st.markdown('<div style="text-align:center;padding:3rem;"><div style="font-size:3rem;">🔐</div><div style="font-family:Syne,sans-serif;font-size:1.1rem;color:#e2e8ff;margin:.8rem 0 .4rem;">Admin Panel Locked</div><div style="color:#64748b;font-size:.9rem;">Enter password in sidebar and click Unlock Admin</div></div>', unsafe_allow_html=True)
+        st.markdown('<div style="text-align:center;padding:3rem;"><div style="font-size:3rem;">🔐</div><div style="font-family:Syne,sans-serif;font-size:1.1rem;color:#e2e8ff;margin:.8rem 0 .4rem;">Admin Panel Locked</div><div style="color:#64748b;font-size:.9rem;">Enter password in sidebar and click Unlock Admin</div></div>', unsafe_allow_html=True)#   u p d a t e  
+ 
