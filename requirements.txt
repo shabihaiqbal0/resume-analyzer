@@ -1,6 +1,4 @@
-streamlit
-PyPDF2
-docx2txt
-langchain-groq
-langchain-core
-langchain
+streamlit>=1.32.0
+groq>=0.4.0
+PyPDF2>=3.0.0
+plotly>=5.18.0
