@@ -105,9 +105,11 @@ html, body, [class*="css"], .stApp {
 }
 .stButton > button:hover { transform: translateY(-1px) !important; box-shadow: 0 8px 30px rgba(124,58,237,0.4) !important; }
 
-.stTextArea textarea {
-    background: rgba(255,255,255,0.03) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+/* ── FIX: ALL TEXTAREAS DARK ── */
+textarea, .stTextArea textarea, [data-baseweb="textarea"] textarea {
+    background: #0d0d1a !important;
+    background-color: #0d0d1a !important;
+    border: 1px solid rgba(124,58,237,0.3) !important;
     border-radius: 14px !important;
     color: rgba(255,255,255,0.88) !important;
     font-family: 'Plus Jakarta Sans', sans-serif !important;
@@ -115,13 +117,22 @@ html, body, [class*="css"], .stApp {
     line-height: 1.7 !important;
     padding: 1rem 1.2rem !important;
     transition: all 0.3s !important;
+    caret-color: #a78bfa !important;
 }
-.stTextArea textarea:focus { border-color: rgba(124,58,237,0.5) !important; box-shadow: 0 0 0 3px rgba(124,58,237,0.1) !important; }
-.stTextArea textarea::placeholder { color: rgba(255,255,255,0.18) !important; }
+textarea:focus, .stTextArea textarea:focus {
+    border-color: rgba(124,58,237,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(124,58,237,0.12) !important;
+    outline: none !important;
+}
+textarea::placeholder, .stTextArea textarea::placeholder {
+    color: rgba(255,255,255,0.18) !important;
+}
 .stTextArea label { display: none !important; }
+[data-baseweb="textarea"] { background: #0d0d1a !important; border-radius: 14px !important; }
+[data-baseweb="base-input"] { background: #0d0d1a !important; }
 
 .stTextInput input {
-    background: rgba(255,255,255,0.03) !important;
+    background: #0d0d1a !important;
     border: 1px solid rgba(255,255,255,0.08) !important;
     border-radius: 12px !important;
     color: rgba(255,255,255,0.88) !important;
@@ -218,13 +229,7 @@ html, body, [class*="css"], .stApp {
     transition: border-color 0.2s;
 }
 .result-card:hover { border-color: rgba(255,255,255,0.1); }
-.result-card-title {
-    font-size: 0.63rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 2.5px;
-    margin-bottom: 0.9rem;
-}
+.result-card-title { font-size: 0.63rem; font-weight: 700; text-transform: uppercase; letter-spacing: 2.5px; margin-bottom: 0.9rem; }
 .result-card-body { font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.75; }
 
 .tag { display: inline-flex; align-items: center; padding: 0.3rem 0.85rem; border-radius: 8px; font-size: 0.8rem; font-weight: 500; margin: 0.22rem; }
@@ -232,45 +237,31 @@ html, body, [class*="css"], .stApp {
 .tag-red { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
 
 .tip-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
+    display: flex; align-items: flex-start; gap: 0.75rem;
     padding: 0.65rem 0;
     border-bottom: 1px solid rgba(255,255,255,0.04);
-    color: rgba(255,255,255,0.6);
-    font-size: 0.88rem;
-    line-height: 1.65;
+    color: rgba(255,255,255,0.6); font-size: 0.88rem; line-height: 1.65;
 }
 .tip-row:last-child { border-bottom: none; }
 .tip-num {
     min-width: 22px; height: 22px;
-    background: rgba(124,58,237,0.18);
-    border: 1px solid rgba(124,58,237,0.28);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 0.68rem; font-weight: 700; color: #a78bfa;
-    flex-shrink: 0; margin-top: 2px;
+    background: rgba(124,58,237,0.18); border: 1px solid rgba(124,58,237,0.28);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 700; color: #a78bfa; flex-shrink: 0; margin-top: 2px;
 }
 
 .chat-output {
-    background: rgba(255,255,255,0.02);
+    background: #0d0d1a;
     border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 1.5rem;
-    color: rgba(255,255,255,0.72);
-    font-size: 0.9rem;
-    line-height: 1.8;
-    white-space: pre-wrap;
-    margin-top: 1rem;
+    border-radius: 16px; padding: 1.5rem;
+    color: rgba(255,255,255,0.72); font-size: 0.9rem; line-height: 1.8;
+    white-space: pre-wrap; margin-top: 1rem;
 }
 
 .sidebar-footer {
-    font-size: 0.68rem;
-    color: rgba(255,255,255,0.18);
-    text-align: center;
-    padding: 1.5rem 0 1rem;
-    border-top: 1px solid rgba(255,255,255,0.05);
-    margin-top: 1.5rem;
+    font-size: 0.68rem; color: rgba(255,255,255,0.18);
+    text-align: center; padding: 1.5rem 0 1rem;
+    border-top: 1px solid rgba(255,255,255,0.05); margin-top: 1.5rem;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -346,24 +337,20 @@ JOB: {job[:2000]}"""
 # ══════════════════════════════
 with st.sidebar:
     st.markdown('<div class="sidebar-brand"><div class="sidebar-logo">⚡ ResumeIQ Pro</div><div class="sidebar-tagline">AI-Powered Career Intelligence</div></div>', unsafe_allow_html=True)
-
     st.markdown('<div class="sidebar-label">📄 Your Resume (PDF)</div>', unsafe_allow_html=True)
     file = st.file_uploader("", type=["pdf"])
     if file:
         st.session_state.resume_text = extract_pdf(file)
         st.session_state.use_demo = False
         st.success("✅ Resume loaded!")
-
     st.markdown('<div class="sidebar-label">🎮 Quick Start</div>', unsafe_allow_html=True)
     if st.button("Try Sample Resume"):
         st.session_state.resume_text = DEMO_RESUME
         st.session_state.use_demo = True
     if st.session_state.use_demo:
         st.info("Sample resume active")
-
     st.markdown('<div class="sidebar-label">🛠 Tools</div>', unsafe_allow_html=True)
     st.session_state.tool = st.radio("", ["📊 Deep Analysis", "💬 Career Chat", "📝 Cover Letter", "🎤 Interview Prep"], label_visibility="collapsed")
-
     st.markdown('<div class="sidebar-footer">ResumeIQ Pro · Powered by Grok AI</div>', unsafe_allow_html=True)
 
 # ══════════════════════════════
@@ -396,11 +383,9 @@ st.markdown("<br>", unsafe_allow_html=True)
 # ══════════════════════════════
 if st.session_state.tool == "📊 Deep Analysis":
     st.markdown('<div class="section-label">Step 2</div><div class="section-heading">Run Your Analysis</div>', unsafe_allow_html=True)
-
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
         clicked = st.button("🚀 Analyze My Resume", use_container_width=True)
-
     if clicked:
         if not st.session_state.resume_text:
             st.warning("⚠️ Upload your resume PDF or click 'Try Sample Resume' in the sidebar.")
@@ -449,7 +434,7 @@ if st.session_state.tool == "📊 Deep Analysis":
 # ══════════════════════════════
 elif st.session_state.tool == "💬 Career Chat":
     st.markdown('<div class="section-heading">Ask Your AI Career Coach</div>', unsafe_allow_html=True)
-    q = st.text_area("", height=80, placeholder="e.g. How should I rewrite my summary? What skills should I add? How do I negotiate salary?")
+    q = st.text_area("", height=80, placeholder="e.g. How should I rewrite my summary? What skills should I add?")
     if st.button("💬 Ask Career Coach"):
         if not st.session_state.resume_text:
             st.warning("Please upload your resume or use the sample resume first.")
